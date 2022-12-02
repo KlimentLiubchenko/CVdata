@@ -1,0 +1,37 @@
+
+--Skills used: Joins, CTE's, Temp Tables, Windows Functions
+
+
+-- Selecting Data
+SELECT us_team.team_id, us_team.pckg_delivered 
+FROM us_team
+UNION
+SELECT eu_team.team_id, eu_team.pckg_delivered
+FROM eu_team;
+ 
+--Number of deliveries more than 200000
+SELECT *
+FROM eu_team
+WHERE pckg_delivered > 200000;
+
+--Max delivered and Percentage of Difference between Packages delivered to EU
+SELECT package_date, MAX(delivered) as MostDelivered 
+FROM total_package_delivery_change
+UNION 
+SELECT Max((delivered/eu_team.pckg_delivered))*100 as PercentofDifference
+FROM eu_team;
+
+--Using Temp Table to perform Calculation //CTE
+DROP TABLE if exists #total_package_delivery_change
+Create Table ##total_package_delivery_change
+(
+    totalpackages numeric,
+    Date datetime
+)
+
+Insert into #total_package_delivery_change
+Select dea.totalpackages, dea.date
+From private.total_packages_delivered dea
+Join private.eu_team vac
+on dea.totalpackages = vac.totalpackages
+and dea.date = vac.date
