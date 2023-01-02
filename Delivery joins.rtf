@@ -1,0 +1,31 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww16480\viewh18740\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \'97INNER JOIN\
+SELECT order_id\
+FROM sales\
+INNER JOIN delivery\
+ON sales.package_id = delivery.package_id;\
+\'97LEFT JOIN\
+SELECT sales.customer_name, delivery.track_num\
+FROM sales\
+LEFT JOIN delivery\
+ON sales.customer_name = delivery.track_num\
+ORDER BY sales.customer_name;\
+\'97RIGHT JOIN\
+SELECT delivery.track_num, sales.customer_id, sales.customer_name\
+FROM delivery\
+RIGHT JOIN sales \
+ON delivery.track_num = sales.customer_id\
+ORDER BY delivery.track_num;\
+\'97HAVING\
+SELECT sales.customer_name, SUM(delivery.package_price) AS TotalSpent\
+FROM delivery\
+INNER JOIN sales\
+ON deliver.package_id = sales.package_id\
+GROUP BY customer_name \
+HAVING SUM(delivery.package_price) > 200}
